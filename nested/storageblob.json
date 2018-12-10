@@ -8,14 +8,13 @@
     },
     "resources": [
         {
-            "name": "[parameters('storageBlobSettings').storageAccountName]",
-            "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "2018-02-01",
-            "location": "[parameters('storageBlobSettings').location]",
-            "kind": "StorageV2",
-            "properties": {
-                "accountType": "[parameters('storageBlobSettings').storageAccountType]"
-            },
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[parameters('storageBlobSettings').storageAccountName]",
+                "apiVersion": "2018-02-01",
+                "location": "[parameters('location')]",
+                "properties": {
+                    "accountType": "[parameters('storageBlobSettings').storageAccountType]"
+                },
             "resources": [
                 {
                     "name": "[concat('default/', parameters('storageBlobSettings').containerName)]",
