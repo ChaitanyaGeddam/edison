@@ -9,7 +9,7 @@
     },
     "resources": [
         {
-            "name": "[parameters('storageBlobSettings').storageAccountName)]",
+            "name": "[parameters('storageBlobSettings').storageAccountName]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2018-02-01",
             "location": "[parameters('storageBlobSettings').location]",
