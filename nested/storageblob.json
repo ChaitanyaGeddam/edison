@@ -10,10 +10,13 @@
         {
                 "type": "Microsoft.Storage/storageAccounts",
                 "name": "[parameters('storageBlobSettings').storageAccountName]",
-                "apiVersion": "2018-02-01",
+                "apiVersion": "2018-07-01",
                 "location": "[parameters('storageBlobSettings').location]",
+                "sku":{
+                    "name":"[parameters('storageBlobSettings').storageType]",
+                    "kind": "StorageV2"
+                },
                 "properties": {
-                    "accountType": "Standard_LRS"
                 },
             "resources": [
                 {
