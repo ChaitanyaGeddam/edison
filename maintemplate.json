@@ -84,7 +84,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), '/nested/CosmosDB.json')]",
+                    "uri": "[concat(variables('baseUrl'), '/nested/cosmosdb.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
