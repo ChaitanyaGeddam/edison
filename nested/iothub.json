@@ -34,7 +34,7 @@
       "dependsOn": [
         "[concat('Microsoft.Devices/iothubs/',parameters('iothubSettings').iotHubName)]"
       ],
-      "name": "[concat(parameters('iothubSettings').iotHubName) '/events/',parameters('iothubSettings').d2cConsumerGroupName))]",
+      "name": "[concat(parameters('iothubSettings').iotHubName, '/events/',parameters('iothubSettings').d2cConsumerGroupName)]",
       "type": "Microsoft.Devices/iotHubs/eventhubEndpoints/ConsumerGroups"
     }
   ],
