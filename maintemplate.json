@@ -24,7 +24,7 @@
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "containerName": "logs",
-            "skutier": "Standard",
+            "skutier": "Standard_LRS",
             "accessTier": "Hot"
         },
         "WebAppSettings": {},
