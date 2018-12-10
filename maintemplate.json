@@ -108,7 +108,7 @@
         "properties": {
             "mode": "Incremental",
             "templateLink": {
-                "uri": "[concat(variables('baseUrl'), '/nested/webapi.json')]",
+                "uri": "[concat(variables('baseUrl'), '/nested/webapi-components.json')]",
                 "contentVersion": "1.0.0.0"
             },
             "parameters": {
@@ -126,7 +126,7 @@
     "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[concat(variables('baseUrl'), '/nested/webadmin.json')]",
+            "uri": "[concat(variables('baseUrl'), '/nested/webadmin.json')]", 
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
