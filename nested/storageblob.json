@@ -14,9 +14,9 @@
             "apiVersion": "2018-02-01",
             "location": "[parameters('storageBlobSettings').location]",
             "kind": "StorageV2",
-            "sku": "[parameters('storageBlobSettings').skutier]",
             "properties": {
-                "accessTier":"[parameters('storageBlobSettings').accessTier]"
+                "accountType": "[parameters('storageBlobSettings').storageAccountType]",
+                "accessTier": "[parameters('storageBlobSettings').accessTier]"
             },
             "resources": [
                 {
