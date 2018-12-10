@@ -1,0 +1,103 @@
+{
+"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+"contentVersion": "1.0.0.0",
+"parameters": {
+"location":{
+    "type": "string",
+    "defaultValue": "EastUs"
+}
+},
+"variables": {
+"iothubSettings":{
+    "location":"[parameters('location')]",
+    "iotHubName":"[concat('edisonhub',variables('suffix'))]",
+    "d2cMessageRetentionInDaysPeriod": 1,
+    "d2cPartitionCount": 2,
+    "skuName": "F1",
+    "capacityUnits": 1,
+    "d2cConsumerGroupName": "cg1"
+},
+"apiVersion":{
+    "iotHubApiVersion":"2016-02-03"
+},
+"storageBlobSettings":{
+    "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
+    "location":"[parameters('location')]",
+    "containerName": "logs",
+    "skutier": "Standard",
+    "accessTier": "Hot"
+},
+"WebAppSettings":{
+},
+"CosmosDbSettings":{
+    "databaseAccName": "[concat('edisondbacc',variables('suffix'))]",
+    "location":"[parameters('location')]",
+    "offerType": "Standard"
+},
+"baseUrl": "baseUrl",
+"suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]"
+},
+"resources": [
+    {
+    "name": "IotHub",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "2016-02-01",
+    "dependsOn": [],
+    "properties": {
+    "mode": "Incremental",
+    "templateLink": {
+    "uri": "[concat(variables('baseUrl'), 'nested/iot-hub.json')]",
+    "contentVersion": "1.0.0.0"
+    },
+    "parameters": {
+    "iotHubSettings": {
+    "value": "[variables('iotHubSettings')]"
+    },
+    "apiVersion": {
+    "value": "[variables('apiVersion')]"
+    }
+    }
+    }
+    },
+    {
+    "name": "StorageBlob",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "2016-02-01",
+    "dependsOn": [],
+    "properties": {
+    "mode": "Incremental",
+    "templateLink": {
+    "uri": "[concat(variables('baseUrl'), 'nested/storageblob.json')]",
+    "contentVersion": "1.0.0.0"
+    },
+    "parameters": {
+    "storageBlobSettings": {
+    "value": "[variables('storageBlobSettings')]"
+    }
+    }
+    }
+},
+{
+    "name": "Cosmosdb",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "2016-02-01",
+    "dependsOn": [],
+    "properties": {
+    "mode": "Incremental",
+    "templateLink": {
+    "uri": "[concat(variables('baseUrl'), 'nested/cosmosdb.json')]",
+    "contentVersion": "1.0.0.0"
+    },
+    "parameters": {
+    "CosmosDbSettings": {
+    "value": "[variables('CosmosDbSettings')]"
+    }
+    }
+    }
+}
+],
+
+"outputs": {
+}
+
+}
