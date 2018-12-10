@@ -24,8 +24,7 @@
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "containerName": "logs",
-            "storageAccountType": "Standard_LRS",
-            "accessTier": "Hot"
+            "storageAccountType": "Standard_LRS"
         },
         "WebAppSettings": {},
         "CosmosDbSettings": {
