@@ -23,7 +23,8 @@
         "storageBlobSettings": {
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
-            "containerName": "logs"
+            "containerName": "logs",
+            "storageType":"Standard_LRS"
         },
         "webSiteSettings": {
             "webAppHostingPlanName": "[concat('edisonwebplan',variables('suffix'))]",
