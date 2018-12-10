@@ -56,7 +56,7 @@
                         "netFrameworkVersion": "v4.6",
                         "use32BitWorkerProcess": true,
                         "webSocketsEnabled": true,
-                        "alwaysOn": true,
+                        "alwaysOn": false,
                         "remoteDebuggingEnabled": true,
                         "remoteDebuggingVersion": "VS2015"
                     }
