@@ -13,9 +13,9 @@
                 "apiVersion": "2018-07-01",
                 "location": "[parameters('storageBlobSettings').location]",
                 "sku":{
-                    "name":"[parameters('storageBlobSettings').storageType]",
-                    "kind": "StorageV2"
+                    "name":"[parameters('storageBlobSettings').storageType]"
                 },
+                    "kind": "StorageV2",
                 "properties": {
                 },
             "resources": [
