@@ -11,9 +11,9 @@
                 "type": "Microsoft.Storage/storageAccounts",
                 "name": "[parameters('storageBlobSettings').storageAccountName]",
                 "apiVersion": "2018-02-01",
-                "location": "[parameters('storageBlobSettings').location]",
+                "location": "[parameters('storageBlobSettings').]",
                 "properties": {
-                    "accountType": "[parameters('storageBlobSettings').storageAccountType]"
+                    "accountType": "[parameters('storageBlobSettings').storageType]"
                 },
             "resources": [
                 {
