@@ -24,9 +24,16 @@
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "containerName": "logs",
-            "storageAccountType": "Standard_LRS"
+            "storageType":"Standard_RAGRS"
         },
-        "WebAppSettings": {},
+        "webSiteSettings": {
+            "webAppHostingPlanName": "[concat('edisonwebplan',variables('suffix'))]",
+            "location": "[parameters('location')]",
+            "webAppSkuName1": "F1",
+            "webAPI": "[concat('edisonWebAPI',variables('suffix'))]",
+            "webApiPackageuri":"",
+            "webAdmin":"[concat('edisonWebAdmin',variables('suffix'))]"
+        },
         "CosmosDbSettings": {
             "databaseAccName": "[concat('edisondbacc',variables('suffix'))]",
             "location": "[parameters('location')]",
@@ -92,7 +99,44 @@
                     }
                 }
             }
+        },
+        {
+        "name": "WebAPI",
+        "type": "Microsoft.Resources/deployments",
+        "apiVersion": "2016-02-01",
+        "dependsOn": [],
+        "properties": {
+            "mode": "Incremental",
+            "templateLink": {
+                "uri": "[concat(variables('baseUrl'), '/nested/webapi.json')]",
+                "contentVersion": "1.0.0.0"
+            },
+            "parameters": {
+                "webSiteSettings": {
+                    "value": "[variables('webSiteSettings')]"
+                }
+            }
         }
+    },
+    {
+    "name": "WebAdmin",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "2016-02-01",
+    "dependsOn": [],
+    "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[concat(variables('baseUrl'), '/nested/webadmin.json')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+            "webSiteSettings": {
+                "value": "[variables('webSiteSettings')]"
+            }
+        }
+    }
+}
+
     ],
     "outputs": {}
 }
