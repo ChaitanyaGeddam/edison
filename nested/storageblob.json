@@ -2,8 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-     "storageBlobSettings":
-     {
+     "storageBlobSettings":{
          "type": "object"
      }
     },
@@ -15,8 +14,7 @@
             "location": "[parameters('storageBlobSettings').location]",
             "kind": "StorageV2",
             "properties": {
-                "accountType": "[parameters('storageBlobSettings').storageAccountType]",
-                "accessTier": "[parameters('storageBlobSettings').accessTier]"
+                "accountType": "[parameters('storageBlobSettings').storageAccountType]"
             },
             "resources": [
                 {
