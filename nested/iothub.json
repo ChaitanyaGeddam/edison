@@ -38,10 +38,5 @@
       "type": "Microsoft.Devices/iotHubs/eventhubEndpoints/ConsumerGroups"
     }
   ],
-  "outputs": {
-    "iotHubKeys": {
-      "value": "[listKeys(resourceId('Microsoft.Devices/iotHubs', parameters('iothubSettings').iotHubName, parameters('apiVersion').iotHubApiVersion))]",
-      "type": "object"
-    }
-  }
+  "outputs": {}
 }
