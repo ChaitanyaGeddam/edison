@@ -1,32 +1,41 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "kubernetesSettings": {
+    "parameters": { 
+        "kubernetesSettings":{
             "type": "object"
         }
     },
+    "variables": {},
     "resources": [
         {
-            "type": "Microsoft.ContainerService/managedClusters",
-            "name": "[parameters('kubernetesSettings').servicename]",
             "apiVersion": "2018-03-31",
-           "location": "[parameters('kubernetesSettings').location]",
-            "tags": {},
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'WorkspaceDeployment')]"
+            ],
+            "type": "Microsoft.ContainerService/managedClusters",
+            "location": "[parameters('kubernetesSettings').location]",
+            "name": "[(parameters('kubernetesSettings').resourceName)]",
             "properties": {
                 "kubernetesVersion": "[parameters('kubernetesSettings').kubernetesVersion]",
-               "enableRBAC": "[parameters('kubernetesSettings').enableRBAC]",
+                "enableRBAC": false,
                 "dnsPrefix": "[parameters('kubernetesSettings').dnsPrefix]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
-                       "enabled":  "[parameters('kubernetesSettings').enableHttpApplicationRouting]"
+                        "enabled": true
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "logAnalyticsWorkspaceResourceID": "[parameters('kubernetesSettings').omsWorkspaceId]"
+                        }
                     }
                 },
                 "agentPoolProfiles": [
                     {
                         "name": "agentpool",
                         "osDiskSizeGB": "[parameters('kubernetesSettings').osDiskSizeGB]",
-                       "count": "[parameters('kubernetesSettings').agentCount]",
+                        "count": "[parameters('kubernetesSettings').agentCount]",
                         "vmSize": "[parameters('kubernetesSettings').agentVMSize]",
                         "osType": "[parameters('kubernetesSettings').osType]",
                         "storageProfile": "ManagedDisks"
@@ -34,14 +43,76 @@
                 ],
                 "servicePrincipalProfile": {
                     "ClientId": "[parameters('kubernetesSettings').servicePrincipalClientId]",
-                    "Secret":"[parameters('kubernetesSettings').servicePrincipalClientSecret]"
+                    "Secret": "[parameters('kubernetesSettings').servicePrincipalClientSecret]"
                 },
                 "networkProfile": {
-                    "networkPlugin": "[parameters('kubernetesSettings').networkPlugin]",
-                    "podCidr": "10.244.0.0/16",
-                    "serviceCidr": "10.0.0.0/16",
-                    "dnsServiceIP": "10.0.0.10",
-                    "dockerBridgeCidr": "172.17.0.1/16"
+                    "networkPlugin": "[parameters('kubernetesSettings').networkPlugin]"
+                }
+            },
+            "tags": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "SolutionDeployment",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "[split(parameters('kubernetesSettings').omsWorkspaceId,'/')[4]]",
+            "subscriptionId": "[split(parameters('kubernetesSettings').omsWorkspaceId,'/')[2]]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2015-11-01-preview",
+                            "type": "Microsoft.OperationsManagement/solutions",
+                            "location": "[parameters('kubernetesSettings').workspaceRegion]",
+                            "name": "[concat('ContainerInsights', '(', split(parameters('kubernetesSettings').omsWorkspaceId,'/')[8], ')')]",
+                            "properties": {
+                                "workspaceResourceId": "[parameters('kubernetesSettings').omsWorkspaceId]"
+                            },
+                            "plan": {
+                                "name": "[concat('ContainerInsights', '(', split(parameters('kubernetesSettings').omsWorkspaceId,'/')[8], ')')]",
+                                "product": "[concat('OMSGallery/', 'ContainerInsights')]",
+                                "promotionCode": "",
+                                "publisher": "Microsoft"
+                            }
+                        }
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'WorkspaceDeployment')]"
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "WorkspaceDeployment",
+            "apiVersion": "2017-05-10",
+            "resourceGroup": "[split(parameters('kubernetesSettings').omsWorkspaceId,'/')[4]]",
+            "subscriptionId": "[split(parameters('kubernetesSettings').omsWorkspaceId,'/')[2]]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "apiVersion": "2015-11-01-preview",
+                            "type": "Microsoft.OperationalInsights/workspaces",
+                            "location": "[parameters('kubernetesSettings').workspaceRegion]",
+                            "name": "[parameters('kubernetesSettings').workspaceName]",
+                            "properties": {
+                                "sku": {
+                                    "name": "[parameters('kubernetesSettings').omsSku]"
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         }
@@ -49,7 +120,7 @@
     "outputs": {
         "controlPlaneFQDN": {
             "type": "string",
-            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('kubernetesSettings').servicename)).fqdn]"
+            "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', parameters('kubernetesSettings').resourceName)).fqdn]"
         }
     }
 }
