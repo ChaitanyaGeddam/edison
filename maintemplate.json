@@ -55,7 +55,7 @@
             "servicename": "[concat('kubernetes', variables('suffix'))]",
             "kubernetesVersion": "1.11.2",
             "location": "[parameters('location')]",
-            "enableRBAC": "[parameters('enableRBAC')]",
+            "enableRBAC": true,
             "dnsPrefix":  "clusterdns",
             "enableHttpApplicationRouting": "[parameters('enableHttpApplicationRouting')]",
             "osType": "Linux",
