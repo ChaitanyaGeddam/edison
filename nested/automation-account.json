@@ -32,8 +32,8 @@
                     ],
                     "properties": {
                         "runbookType": "Script",
-                        "logProgress": "false",
-                        "logVerbose": "false",
+                        "logProgress": false,
+                        "logVerbose": false,
                         "description": null,
                         "publishContentLink": {
                             "uri": "[parameters('automationSettings').runbookUri]",
@@ -57,7 +57,7 @@
                     ]
                 },
                 {
-                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', parameters('automationSettings').sessionId)]",
+                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', 123')]",
                     "type": "Microsoft.Automation/automationAccounts/jobs",
                     "apiVersion":"2015-10-31",
                     "location": "[parameters('automationSettings').automationLocation]",
