@@ -7,16 +7,16 @@
             "defaultValue": "EastUs"
         },
         "servicePrincipalClientId": {
+            "type": "securestring",
             "metadata": {
-                "description": "Client ID (used by cloudprovider)"
-            },
-            "type": "securestring"
+                "description": "Client ID"
+            }           
         },
         "servicePrincipalClientSecret": {
+            "type": "securestring",
             "metadata": {
                 "description": "The Service Principal Client Secret."
-            },
-            "type": "securestring"
+            }            
         }
     },
     "variables": {
@@ -36,36 +36,32 @@
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "containerName": "logs",
-            "storageType":"Standard_LRS"
+            "storageType": "Standard_LRS"
         },
         "webSiteSettings": {
             "webAppHostingPlanName": "[concat('edisonwebplan',variables('suffix'))]",
             "location": "WestUS",
             "webAppSkuName1": "F1",
             "webAPI": "[concat('edisonWebAPI',variables('suffix'))]",
-            "webApiPackageuri":"",
-            "webAdmin":"[concat('edisonWebAdmin',variables('suffix'))]"
+            "webApiPackageuri": "",
+            "webAdmin": "[concat('edisonWebAdmin',variables('suffix'))]"
         },
         "CosmosDbSettings": {
             "databaseAccName": "[concat('edisondbacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "offerType": "Standard"
         },
-        "kubenetesSettings":{
+        "kubenetesSettings": {
             "location": "[parameters('location')]",
             "resourceName": "[concat('cluster',variables('suffix'))]",
             "kubernetesVersion": "1.11.4",
-            "enableRBAC": false,
             "dnsPrefix": "cluster",
-            "enableHttpApplicationRouting": true,
-            "enableOmsAgent": true,
             "workspaceName": "[variables('workspaceName')]",
             "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
             "osDiskSizeGB": 1023,
             "agentCount": 1,
             "agentVMSize": "Standard_D2_v2",
             "osType": "Linux",
-            "storageProfile": "ManagedDisks",
             "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
             "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
             "networkPlugin": "kubenet",
@@ -135,60 +131,60 @@
             }
         },
         {
-        "name": "WebAPI",
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2016-02-01",
-        "dependsOn": [],
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "[concat(variables('baseUrl'), '/nested/webapi-components.json')]",
-                "contentVersion": "1.0.0.0"
-            },
-            "parameters": {
-                "webSiteSettings": {
-                    "value": "[variables('webSiteSettings')]"
+            "name": "WebAPI",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), '/nested/webapi-components.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "webSiteSettings": {
+                        "value": "[variables('webSiteSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "WebAdmin",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), '/nested/webadmin.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "webSiteSettings": {
+                        "value": "[variables('webSiteSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Kubernetes",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [
+                "IotHub"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'),'nested/kubernetes.json?token=AT3nZrXIiKuD_tkbPpUMTpLqELhh1LQXks5bvZOlwA%3D%3D')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "kubernetesSettings": {
+                        "value": "[variables('kubernetesSettings')]"
+                    }
                 }
             }
         }
-    },
-    {
-    "name": "WebAdmin",
-    "type": "Microsoft.Resources/deployments",
-    "apiVersion": "2016-02-01",
-    "dependsOn": [],
-    "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-            "uri": "[concat(variables('baseUrl'), '/nested/webadmin.json')]", 
-            "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-            "webSiteSettings": {
-                "value": "[variables('webSiteSettings')]"
-            }
-        }
-    }
-},
-{
-    "name": "Kubernetes",
-    "type": "Microsoft.Resources/deployments",
-    "apiVersion": "2015-01-01",
-    "dependsOn": [
-        "IotHub"
-    ],
-    "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-            "uri": "[concat(variables('baseUrl'),'nested/kubernetes.json?token=AT3nZrXIiKuD_tkbPpUMTpLqELhh1LQXks5bvZOlwA%3D%3D')]",
-            "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-            "kubernetesSettings": {
-                "value": "[variables('kubernetesSettings')]"
-            }
-        }
-    }
-}
     ]
 }
