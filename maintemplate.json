@@ -51,26 +51,20 @@
             "location": "[parameters('location')]",
             "offerType": "Standard"
         },
-        "kubenetesSettings":{
+        "kubernetesSettings": {
+            "servicename": "[concat('kubernetes', variables('suffix'))]",
+            "kubernetesVersion": "1.11.2",
             "location": "[parameters('location')]",
-            "resourceName": "[concat('cluster',variables('suffix'))]",
-            "kubernetesVersion": "1.11.4",
-            "enableRBAC": false,
-            "dnsPrefix": "cluster",
-            "enableHttpApplicationRouting": true,
-            "enableOmsAgent": true,
-            "workspaceName": "[variables('workspaceName')]",
-            "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
-            "osDiskSizeGB": 1023,
-            "agentCount": 3,
-            "agentVMSize": "Standard_D2_v2",
+            "enableRBAC": "[parameters('enableRBAC')]",
+            "dnsPrefix":  "clusterdns",
+            "enableHttpApplicationRouting": "[parameters('enableHttpApplicationRouting')]",
             "osType": "Linux",
-            "storageProfile": "ManagedDisks",
+            "agentVMSize": "Standard_D2_v2",
+            "agentCount": "[parameters('agentCount')]",
             "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
             "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
             "networkPlugin": "kubenet",
-            "workspaceRegion": "East US",
-            "omsSku": "standalone"
+            "osDiskSizeGB": "[parameters('osDiskSizeGB')]"
         },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]",
@@ -171,23 +165,24 @@
     }
 },
 {
-    "name": "kubernetesCluster",
+    "name": "Kubernetes",
     "type": "Microsoft.Resources/deployments",
-    "apiVersion": "2016-02-01",
-    "dependsOn": [],
+    "apiVersion": "2015-01-01",
+    "dependsOn": [
+        "IotHub"
+    ],
     "properties": {
         "mode": "Incremental",
         "templateLink": {
-            "uri": "[concat(variables('baseUrl'), '/nested/kubernetescluster.json')]",
+            "uri": "[concat(variables('baseUrl'),'nested/kubernetes.json?token=AT3nZrXIiKuD_tkbPpUMTpLqELhh1LQXks5bvZOlwA%3D%3D')]",
             "contentVersion": "1.0.0.0"
         },
         "parameters": {
-            "kubenetesSettings": {
-                "value": "[variables('kubenetesSettings')]"
+            "kubernetesSettings": {
+                "value": "[variables('kubernetesSettings')]"
             }
         }
     }
 }
-    ],
-    "outputs": {}
+    ]
 }
