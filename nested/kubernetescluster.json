@@ -25,14 +25,14 @@
             "name": "[(parameters('kubenetesSettings').resourceName)]",
             "properties": {
                 "kubernetesVersion": "[parameters('kubenetesSettings').kubernetesVersion]",
-                "enableRBAC": "[parameters('kubenetesSettings').enableRBAC]",
+                "enableRBAC": false,
                 "dnsPrefix": "[parameters('kubenetesSettings').dnsPrefix]",
                 "addonProfiles": {
                     "httpApplicationRouting": {
-                        "enabled": "[parameters('kubenetesSettings').enableHttpApplicationRouting]"
+                        "enabled": true
                     },
                     "omsagent": {
-                        "enabled": "[parameters('kubenetesSettings').enableOmsAgent]",
+                        "enabled": true,
                         "config": {
                             "logAnalyticsWorkspaceResourceID": "[parameters('kubenetesSettings').omsWorkspaceId]"
                         }
@@ -45,7 +45,7 @@
                         "count": "[parameters('kubenetesSettings').agentCount]",
                         "vmSize": "[parameters('kubenetesSettings').agentVMSize]",
                         "osType": "[parameters('kubenetesSettings').osType]",
-                        "storageProfile": "[parameters('kubenetesSettings').storageProfile]"
+                        "storageProfile": "ManagedDisks"
                     }
                 ],
                 "servicePrincipalProfile": {
