@@ -17,15 +17,6 @@
                 "description": "The Service Principal Client Secret."
             },
             "type": "securestring"
-        },
-        "agentCount": {
-            "defaultValue": 1,
-            "minValue": 1,
-            "maxValue": 50,
-            "type": "int",
-            "metadata": {
-                "description": "The number of agent nodes for the cluster."
-            }
         }
     },
     "variables": {
@@ -60,20 +51,26 @@
             "location": "[parameters('location')]",
             "offerType": "Standard"
         },
-        "kubernetesSettings": {
-            "servicename": "[concat('kubernetes', variables('suffix'))]",
-            "kubernetesVersion": "1.11.2",
+        "kubenetesSettings":{
             "location": "[parameters('location')]",
-            "enableRBAC": true,
-            "dnsPrefix":  "clusterdns",
+            "resourceName": "[concat('cluster',variables('suffix'))]",
+            "kubernetesVersion": "1.11.4",
+            "enableRBAC": false,
+            "dnsPrefix": "cluster",
             "enableHttpApplicationRouting": true,
-            "osType": "Linux",
+            "enableOmsAgent": true,
+            "workspaceName": "[variables('workspaceName')]",
+            "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
+            "osDiskSizeGB": 1023,
+            "agentCount": 1,
             "agentVMSize": "Standard_D2_v2",
-            "agentCount": "[parameters('agentCount')]",
+            "osType": "Linux",
+            "storageProfile": "ManagedDisks",
             "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
             "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
             "networkPlugin": "kubenet",
-            "osDiskSizeGB": 1023
+            "workspaceRegion": "East US",
+            "omsSku": "standalone"
         },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]",
