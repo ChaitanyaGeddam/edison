@@ -17,6 +17,15 @@
                 "description": "The Service Principal Client Secret."
             },
             "type": "securestring"
+        },
+        "agentCount": {
+            "defaultValue": 1,
+            "minValue": 1,
+            "maxValue": 50,
+            "type": "int",
+            "metadata": {
+                "description": "The number of agent nodes for the cluster."
+            }
         }
     },
     "variables": {
@@ -57,14 +66,14 @@
             "location": "[parameters('location')]",
             "enableRBAC": true,
             "dnsPrefix":  "clusterdns",
-            "enableHttpApplicationRouting": "[parameters('enableHttpApplicationRouting')]",
+            "enableHttpApplicationRouting": true,
             "osType": "Linux",
             "agentVMSize": "Standard_D2_v2",
             "agentCount": "[parameters('agentCount')]",
             "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
             "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
             "networkPlugin": "kubenet",
-            "osDiskSizeGB": "[parameters('osDiskSizeGB')]"
+            "osDiskSizeGB": 1023
         },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]",
