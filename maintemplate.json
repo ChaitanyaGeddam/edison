@@ -59,7 +59,7 @@
             "dnsPrefix": "cluster",
             "enableHttpApplicationRouting": true,
             "enableOmsAgent": true,
-            "workspaceName": "[concat('omsworkspace',variables('suffix'))]",
+            "workspaceName": "[variables('workspaceName')]",
             "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
             "osDiskSizeGB": 1023,
             "agentCount": 3,
@@ -73,7 +73,8 @@
             "omsSku": "standalone"
         },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
-        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]"
+        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]",
+        "workspaceName": "[concat('omsworkspace',variables('suffix'))]"
     },
     "resources": [
         {
