@@ -5,6 +5,18 @@
         "location": {
             "type": "string",
             "defaultValue": "EastUs"
+        },
+        "servicePrincipalClientId": {
+            "metadata": {
+                "description": "Client ID (used by cloudprovider)"
+            },
+            "type": "securestring"
+        },
+        "servicePrincipalClientSecret": {
+            "metadata": {
+                "description": "The Service Principal Client Secret."
+            },
+            "type": "securestring"
         }
     },
     "variables": {
@@ -28,7 +40,7 @@
         },
         "webSiteSettings": {
             "webAppHostingPlanName": "[concat('edisonwebplan',variables('suffix'))]",
-            "location": "[parameters('location')]",
+            "location": "WestUS",
             "webAppSkuName1": "F1",
             "webAPI": "[concat('edisonWebAPI',variables('suffix'))]",
             "webApiPackageuri":"",
@@ -38,6 +50,27 @@
             "databaseAccName": "[concat('edisondbacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "offerType": "Standard"
+        },
+        "kubenetesSettings":{
+            "location": "[parameters('location')]",
+            "resourceName": "[concat('cluster',variables('suffix'))]",
+            "kubernetesVersion": "1.11.4",
+            "enableRBAC": false,
+            "dnsPrefix": "cluster",
+            "enableHttpApplicationRouting": true,
+            "enableOmsAgent": true,
+            "workspaceName": "[concat('omsworkspace',variables('suffix'))]",
+            "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
+            "osDiskSizeGB": 1023,
+            "agentCount": 3,
+            "agentVMSize": "Standard_D2_v2",
+            "osType": "Linux",
+            "storageProfile": "ManagedDisks",
+            "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
+            "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
+            "networkPlugin": "kubenet",
+            "workspaceRegion": "East US",
+            "omsSku": "standalone"
         },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]"
@@ -135,8 +168,25 @@
             }
         }
     }
+},
+{
+    "name": "kubernetesCluster",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "2016-02-01",
+    "dependsOn": [],
+    "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+            "uri": "[concat(variables('baseUrl'), '/nested/kubernetescluster.json')]",
+            "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+            "kubenetesSettings": {
+                "value": "[variables('kubenetesSettings')]"
+            }
+        }
+    }
 }
-
     ],
     "outputs": {}
 }
