@@ -51,7 +51,7 @@
             "location": "[parameters('location')]",
             "offerType": "Standard"
         },
-        "kubenetesSettings": {
+        "kubernetesSettings": {
             "location": "[parameters('location')]",
             "resourceName": "[concat('cluster',variables('suffix'))]",
             "kubernetesVersion": "1.11.4",
