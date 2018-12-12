@@ -15,7 +15,7 @@
             ],
             "type": "Microsoft.ContainerService/managedClusters",
             "location": "[parameters('kubernetesSettings').location]",
-            "name": "[(parameters('kubernetesSettings').resourceName)]",
+            "name": "[parameters('kubernetesSettings').resourceName]",
             "properties": {
                 "kubernetesVersion": "[parameters('kubernetesSettings').kubernetesVersion]",
                 "enableRBAC": false,
