@@ -4,10 +4,7 @@
   "parameters": {
    "iothubSettings":{
      "type": "object"
-   },
-   "apiVersion":{
-    "type": "object"
-  }
+   }
 },
   "variables": {},
   "resources": [
