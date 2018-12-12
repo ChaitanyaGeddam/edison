@@ -5,7 +5,7 @@
         "automationSettings": {
             "type": "object"
         },
-        "documentDbSettings": {
+        "cosmosDbSettings": {
             "type": "object"
         }
     },
@@ -57,7 +57,7 @@
                     ]
                 },
                 {
-                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', 123')]",
+                    "name": "[concat(parameters('automationSettings').automationAccountName, '/', parameters('automationSettings').sessionId)]",
                     "type": "Microsoft.Automation/automationAccounts/jobs",
                     "apiVersion":"2015-10-31",
                     "location": "[parameters('automationSettings').automationLocation]",
@@ -69,16 +69,15 @@
                             "tenantId": "[parameters('automationSettings').tenantId]",
                             "azureAccountName": "[parameters('automationSettings').azureAccountName]",
                             "azurePassword": "[parameters('automationSettings').azurePassword]",
-                            "cosmosDBAccountKey": "[listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('documentDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey]",
-                            "cosmosDbAccountName": "[parameters('documentDbSettings').cosmosDbAccountName]",
-                            "cosmosDbName": "[parameters('documentDbSettings').cosmosDbName]"
+                            "cosmosDBAccountKey": "[listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey]",
+                            "cosmosDbAccountName": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+                            "cosmosDbName": "[parameters('cosmosDbSettings').cosmosDbName]"
                         }
                     },
                     "dependsOn": [
                         "[concat('Microsoft.Automation/automationAccounts/', parameters('automationSettings').automationAccountName)]",
                         "[concat('Microsoft.Automation/automationAccounts/',parameters('automationSettings').automationAccountName, '/runbooks/', parameters('automationSettings').runbookName)]",
-                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationSettings').automationAccountName, parameters('automationSettings').moduleName)]",
-                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationSettings').automationAccountName, parameters('automationSettings').moduleName1)]"
+                        "[resourceId('Microsoft.Automation/automationAccounts/modules', parameters('automationSettings').automationAccountName, parameters('automationSettings').moduleName)]"
                     ]
                 }
             ]
