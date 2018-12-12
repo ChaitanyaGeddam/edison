@@ -4,39 +4,72 @@
     "parameters": {
         "location": {
             "type": "string",
-            "defaultValue": "EastUs"
+            "defaultValue": "eastus"
         },
-        "servicePrincipalClientId": {
-            "type": "securestring",
+        "tenantId": {
+            "type": "string",
             "metadata": {
-                "description": "Client ID"
-            }           
+                "description": "TenantId of the created Azure active directory application. For instructions, see  (https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-howto-tenant) in the Microsoft documentation"
+            }
         },
-        "servicePrincipalClientSecret": {
+        "azureAccountName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azurePassword": {
             "type": "securestring",
-            "metadata": {
-                "description": "The Service Principal Client Secret."
-            }            
-        }
+            "defaultValue": ""
+        },
+        "sessionId":{
+            "type": "string",
+            "defaultValue": ""
+       },
+       "cosmosdbModuleUri":{
+            "type": "string",
+            "defaultValue": "https://github.com/ChaitanyaGeddam/edison/raw/master/scripts/cosmos.zip"
+       }
     },
     "variables": {
-        "iothubSettings": {
+        "notificationHub": {
             "location": "[parameters('location')]",
-            "iotHubName": "[concat('edisonhub',variables('suffix'))]",
-            "d2cMessageRetentionInDaysPeriod": 1,
-            "d2cPartitionCount": 2,
-            "skuName": "F1",
-            "capacityUnits": 1,
-            "d2cConsumerGroupName": "cg1"
+            "skuName": "free",
+            "namespaceType": "NotificationHub",
+            "notificationHubNamespaceName": "[concat('NotificationHubNS', variables('suffix'))]",
+            "notificationHubName": "[concat('NotificationHub', variables('suffix'))]"
         },
-        "apiVersion": {
-            "iotHubApiVersion": "2016-02-03"
+        "cosmosDbSettings": {
+            "cosmosDbAccountName": "[concat('edisondbacc',variables('suffix'))]",
+            "location": "[parameters('location')]",
+            "offerType": "Standard",
+            "cosmosDbName":"Edison"
+        },
+        "automationSettings": {
+            "automationAccountName": "[concat('AutomationAcc', variables('suffix'))]",
+            "automationLocation": "eastus2",
+            "automationSku": "Free",
+            "runbookName": "container",
+            "moduleName": "CosmosDB",
+            "cosmosdbModuleUri": "[parameters('cosmosdbModuleUri')]",
+            "runbookUri": "[concat(variables('baseUrl'),'/scripts/initializeCosmosDb.ps1')]",
+            "sessionId": "[parameters('sessionId')]",
+            "tenantId": "[parameters('tenantId')]",
+            "azureAccountName": "[parameters('azureAccountName')]",
+            "azurePassword": "[parameters('azurePassword')]"
         },
         "storageBlobSettings": {
             "storageAccountName": "[concat('edisonstrgeacc',variables('suffix'))]",
             "location": "[parameters('location')]",
             "containerName": "logs",
-            "storageType": "Standard_LRS"
+            "storageAccountType": "Standard_LRS"
+        },
+        "iothubSettings": {
+            "location": "[parameters('location')]",
+            "iotHubName": "[concat('edisonhub',variables('suffix'))]",
+            "d2cMessageRetentionInDaysPeriod": 1,
+            "d2cPartitionCount": 2,
+            "skuName": "S1",
+            "capacityUnits": 1,
+            "d2cConsumerGroupName": "cg1"
         },
         "webSiteSettings": {
             "webAppHostingPlanName": "[concat('edisonwebplan',variables('suffix'))]",
@@ -46,68 +79,24 @@
             "webApiPackageuri": "",
             "webAdmin": "[concat('edisonWebAdmin',variables('suffix'))]"
         },
-        "CosmosDbSettings": {
-            "databaseAccName": "[concat('edisondbacc',variables('suffix'))]",
-            "location": "[parameters('location')]",
-            "offerType": "Standard"
-        },
-        "kubernetesSettings": {
-            "location": "[parameters('location')]",
-            "resourceName": "[concat('cluster',variables('suffix'))]",
-            "kubernetesVersion": "1.11.4",
-            "dnsPrefix": "cluster",
-            "workspaceName": "[variables('workspaceName')]",
-            "omsWorkspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', variables('WorkspaceName'))]",
-            "osDiskSizeGB": 1023,
-            "agentCount": 1,
-            "agentVMSize": "Standard_D2_v2",
-            "osType": "Linux",
-            "servicePrincipalClientId": "[parameters('servicePrincipalClientId')]",
-            "servicePrincipalClientSecret": "[parameters('servicePrincipalClientSecret')]",
-            "networkPlugin": "kubenet",
-            "workspaceRegion": "East US",
-            "omsSku": "standalone"
-        },
         "baseUrl": "https://raw.githubusercontent.com/ChaitanyaGeddam/edison/master",
-        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]",
-        "workspaceName": "[concat('omsworkspace',variables('suffix'))]"
+        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 4)]"
     },
     "resources": [
         {
-            "name": "IotHub",
+            "name": "NotificationHub",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-02-01",
             "dependsOn": [],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), '/nested/iothub.json')]",
+                    "uri": "[concat(variables('baseUrl'), '/nested/notification-hub.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "iotHubSettings": {
-                        "value": "[variables('iotHubSettings')]"
-                    },
-                    "apiVersion": {
-                        "value": "[variables('apiVersion')]"
-                    }
-                }
-            }
-        },
-        {
-            "name": "StorageBlob",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2016-02-01",
-            "dependsOn": [],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), '/nested/storageblob.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "storageBlobSettings": {
-                        "value": "[variables('storageBlobSettings')]"
+                    "notificationHub": {
+                        "value": "[variables('notificationHub')]"
                     }
                 }
             }
@@ -131,10 +120,73 @@
             }
         },
         {
-            "name": "WebAPI",
+            "name": "AutomationAccount",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [
+                "Cosmosdb"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), '/nested/automation-account.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "automationSettings": {
+                        "value": "[variables('automationSettings')]"
+                    },
+                    "CosmosDbSettings":{
+                        "value": "[variables('cosmosDbSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "StorageBlob",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-02-01",
             "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), '/nested/storageblob.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "storageBlobSettings": {
+                        "value": "[variables('storageBlobSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "IotHub",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), '/nested/iothub.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "iotHubSettings": {
+                        "value": "[variables('iotHubSettings')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "WebAPI",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-02-01",
+            "dependsOn": [
+                "Cosmosdb",
+                "IotHub",
+                "NotificationHub"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -152,7 +204,11 @@
             "name": "WebAdmin",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-02-01",
-            "dependsOn": [],
+            "dependsOn": [
+                "Cosmosdb",
+                "IotHub",
+                "NotificationHub"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -162,26 +218,6 @@
                 "parameters": {
                     "webSiteSettings": {
                         "value": "[variables('webSiteSettings')]"
-                    }
-                }
-            }
-        },
-        {
-            "name": "Kubernetes",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
-            "dependsOn": [
-                "IotHub"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'),'nested/kubernetes.json?token=AT3nZrXIiKuD_tkbPpUMTpLqELhh1LQXks5bvZOlwA%3D%3D')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "kubernetesSettings": {
-                        "value": "[variables('kubernetesSettings')]"
                     }
                 }
             }
