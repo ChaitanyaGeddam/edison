@@ -2,7 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-     "CosmosDbSettings":{
+     "cosmosDbSettings":{
          "type": "object"
      }
   },
@@ -12,14 +12,14 @@
       "apiVersion": "2015-04-08",
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "kind": "GlobalDocumentDB",
-      "name": "[parameters('CosmosDbSettings').cosmosDbAccountName]",
-      "location": "[parameters('CosmosDbSettings').location]",
+      "name": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+      "location": "[parameters('cosmosDbSettings').location]",
       "properties": {
-        "name": "[parameters('CosmosDbSettings').cosmosDbAccountName]",
-        "databaseAccountOfferType": "[parameters('CosmosDbSettings').offerType]",
+        "name": "[parameters('cosmosDbSettings').cosmosDbAccountName]",
+        "databaseAccountOfferType": "[parameters('cosmosDbSettings').offerType]",
         "locations": [
           {
-            "locationName": "[parameters('CosmosDbSettings').location]",
+            "locationName": "[parameters('cosmosDbSettings').location]",
             "failoverPriority": 0
           }
         ]
