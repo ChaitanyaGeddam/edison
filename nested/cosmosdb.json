@@ -12,10 +12,10 @@
       "apiVersion": "2015-04-08",
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "kind": "GlobalDocumentDB",
-      "name": "[parameters('CosmosDbSettings').databaseAccName]",
+      "name": "[parameters('CosmosDbSettings').cosmosDbAccountName]",
       "location": "[parameters('CosmosDbSettings').location]",
       "properties": {
-        "name": "[parameters('CosmosDbSettings').databaseAccName]",
+        "name": "[parameters('CosmosDbSettings').cosmosDbAccountName]",
         "databaseAccountOfferType": "[parameters('CosmosDbSettings').offerType]",
         "locations": [
           {
