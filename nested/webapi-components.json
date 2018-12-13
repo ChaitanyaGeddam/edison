@@ -4,6 +4,18 @@
     "parameters": {
         "webSiteSettings": {
             "type": "object"
+        },
+        "cosmosDbSettings":{
+            "type": "object"
+        },
+        "notificationHub":{
+            "type": "object"
+        },
+        "AzureAdSettings":{
+            "type": "object"
+        },
+        "AzureAdB2CWebSettings":{
+            "type": "object"
         }
     },
     "variables": {},
@@ -86,7 +98,34 @@
                         "[concat('Microsoft.Web/Sites/', parameters('webSiteSettings').webAPI, '/config/web')]",
                         "[concat('Microsoft.Web/Sites/', parameters('webSiteSettings').webAPI, '/Extensions/MSDeploy')]"
                     ],
-                    "properties": {}
+                    "properties": {
+                        "ServiceBusRabbitMQ:Uri":"",
+                        "ServiceBusRabbitMQ:Username":"",
+                        "ServiceBusRabbitMQ:Password":"",
+                        "ServiceBusAzure:ConnectionString":"",
+                        "ServiceBusAzure:OperationTimeoutSeconds": 5,
+                        "CosmosDb:Endpoint":"[concat('https://',parameters('cosmosDbSettings').cosmosDbAccountName,'.documents.azure.com:443/')]",
+                        "CosmosDb:AuthKey":"[listkeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('cosmosDbSettings').cosmosDbAccountName), '2015-04-08').primaryMasterKey]",
+                        "CosmosDb:Database":"[parameters('cosmosDbSettings').cosmosDbName]",
+                        "CosmosDb:Collections:EventClusters":"[parameters('cosmosDbSettings').cosmosCollEventCluster]",
+                        "CosmosDb:Collections:Responses":"[parameters('cosmosDbSettings').cosmosCollResponses]",
+                        "CosmosDb:Collections:Devices":"[parameters('cosmosDbSettings').cosmosCollDevices]",
+                        "CosmosDb:Collections:ActionPlans":"[parameters('cosmosDbSettings').cosmosCollActionPlans]",
+                        "CosmosDb:Collections:Notifications":"[parameters('cosmosDbSettings').cosmosCollNotifications]",
+                        "SignalR:ConnectionString":"",
+                        "AzureAd:Instance":"https://login.microsoftonline.com/",
+                        "AzureAd:ClientId":"[parameters('AzureAdSettings').ClientId]",
+                        "AzureAd:Domain":"[parameters('AzureAdSettings').Domain]",
+                        "AzureAd:TenantId":"[parameters('AzureAdSettings').TenantId]",
+                        "AzureAd:Roles":"Admin",
+                        "AzureAdB2CWeb:Instance":"https://login.microsoftonline.com/tfp/",
+                        "AzureAdB2CWeb:ClientId":"[parameters('AzureAdB2CWebSettings').ClientId]",
+                        "AzureAdB2CWeb:Domain":"[parameters('AzureAdB2CWebSettings').Domain]",
+                        "AzureAdB2CWeb:SignUpSignInPolicyId":"[parameters('AzureAdB2CWebSettings').SignUpSignInPolicyId]",
+                        "NotificationHub:ConnectionString":"[listKeys(resourceId('Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules', parameters('notificationHub').notificationHubNamespaceName, parameters('notificationHub').notificationHubName, 'DefaultFullSharedAccessSignature'), providers('Microsoft.NotificationHubs', 'namespaces/notificationHubs').apiVersions[0]).primaryConnectionString]",
+                        "NotificationHub:PathName":"[parameters('notificationHub').notificationHubName]"
+
+                    }
                 }
             ]
         }
