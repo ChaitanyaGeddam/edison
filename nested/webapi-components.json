@@ -116,7 +116,7 @@
                         "AzureAd:Instance":"https://login.microsoftonline.com/",
                         "AzureAd:ClientId":"[parameters('AzureAdSettings').clientId]",
                         "AzureAd:Domain":"[parameters('AzureAdSettings').domain]",
-                        "AzureAd:TenantId":"[parameters('AzureAdSettings').adTenantId]",
+                        "AzureAd:TenantId":"[parameters('AzureAdSettings').TenantId]",
                         "AzureAd:Roles":"Admin",
                         "AzureAdB2CWeb:Instance":"https://login.microsoftonline.com/tfp/",
                         "AzureAdB2CWeb:ClientId":"[parameters('AzureAdB2CWebSettings').clientId]",
