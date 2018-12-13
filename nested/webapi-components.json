@@ -11,10 +11,10 @@
         "notificationHub":{
             "type": "object"
         },
-        "AzureAdSettings":{
+        "azureAdSettings":{
             "type": "object"
         },
-        "AzureAdB2CWebSettings":{
+        "azureAdB2CWebSettings":{
             "type": "object"
         }
     },
@@ -114,14 +114,14 @@
                         "CosmosDb:Collections:Notifications":"[parameters('cosmosDbSettings').cosmosCollNotifications]",
                         "SignalR:ConnectionString":"",
                         "AzureAd:Instance":"https://login.microsoftonline.com/",
-                        "AzureAd:ClientId":"[parameters('AzureAdSettings').ClientId]",
-                        "AzureAd:Domain":"[parameters('AzureAdSettings').Domain]",
-                        "AzureAd:TenantId":"[parameters('AzureAdSettings').TenantId]",
+                        "AzureAd:ClientId":"[parameters('AzureAdSettings').clientId]",
+                        "AzureAd:Domain":"[parameters('AzureAdSettings').domain]",
+                        "AzureAd:TenantId":"[parameters('AzureAdSettings').adTenantId]",
                         "AzureAd:Roles":"Admin",
                         "AzureAdB2CWeb:Instance":"https://login.microsoftonline.com/tfp/",
-                        "AzureAdB2CWeb:ClientId":"[parameters('AzureAdB2CWebSettings').ClientId]",
-                        "AzureAdB2CWeb:Domain":"[parameters('AzureAdB2CWebSettings').Domain]",
-                        "AzureAdB2CWeb:SignUpSignInPolicyId":"[parameters('AzureAdB2CWebSettings').SignUpSignInPolicyId]",
+                        "AzureAdB2CWeb:ClientId":"[parameters('AzureAdB2CWebSettings').clientId]",
+                        "AzureAdB2CWeb:Domain":"[parameters('AzureAdB2CWebSettings').domain]",
+                        "AzureAdB2CWeb:SignUpSignInPolicyId":"[parameters('AzureAdB2CWebSettings').signUpSignInPolicyId]",
                         "NotificationHub:ConnectionString":"[listKeys(resourceId('Microsoft.NotificationHubs/namespaces/notificationHubs/authorizationRules', parameters('notificationHub').notificationHubNamespaceName, parameters('notificationHub').notificationHubName, 'DefaultFullSharedAccessSignature'), providers('Microsoft.NotificationHubs', 'namespaces/notificationHubs').apiVersions[0]).primaryConnectionString]",
                         "NotificationHub:PathName":"[parameters('notificationHub').notificationHubName]"
 
