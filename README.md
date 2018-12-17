@@ -24,7 +24,7 @@ https://github.com/sysgain/Iot-ProjectEdison/tree/stage
 
 4.	The **Edit template** page is displayed as shown in the following figure.
 
-![alt text] (https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd5.PNG)
+![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd5.PNG)
 
 5.	**Replace / paste** the template and click **Save** button.
 
