@@ -63,11 +63,11 @@ The following are the **parameters** to be passed while deploying the template.
    https://www.guidgenerator.com/online-guid-generator.aspx
 
 
-7. Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
+7.   Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd14.PNG)
 
-8.	After the successful deployment of the ARM template, the following **resources** are created in a **Resource Group**.
+8.	 After the successful deployment of the ARM template, the following **resources** are created in a **Resource Group**.
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd15.PNG)
 
