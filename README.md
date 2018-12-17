@@ -62,7 +62,7 @@ The following are the **parameters** to be passed while deploying the template.
       to generate GUID follow the below url
    https://www.guidgenerator.com/online-guid-generator.aspx
 
-7. Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
+7.  Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd14.PNG)
 
