@@ -14,7 +14,7 @@ https://github.com/sysgain/Iot-ProjectEdison/tree/stage
 
 2.	Navigate to **Create a resource (+)**, search for **Template deployment**.
 
-![alt text] (https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd2.png)
+![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd2.png)
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd3.PNG)
 
@@ -68,7 +68,7 @@ https://www.guidgenerator.com/online-guid-generator.aspx
 
 8.	After the successful deployment of the ARM template, the following **resources** are created in a **Resource Group**.
 
-![alt text] (https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd15.PNG)
+![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd15.PNG)
 
 The following are the list of resources were deployed after successful deployment of the ARM template.
 
@@ -84,7 +84,7 @@ The following are the list of resources were deployed after successful deploymen
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd16.PNG)
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd17.PNG)
-![alt text] (https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd19.PNG)
+![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd19.PNG)
 
 To check the Deployemnts follow the below steps.
 Go to **Resource Group** -> Click **Deployments**.
