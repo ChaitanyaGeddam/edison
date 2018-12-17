@@ -47,6 +47,7 @@ The following are the **parameters** to be passed while deploying the template.
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd11.PNG)
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd12.PNG)
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd13.PNG)
+
 **Note:** 
 1.	**tenantId**: Provide your Azure tenantId
 2.  **servicePrincipalClientId** : Provide Service principal Client ID
