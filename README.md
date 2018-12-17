@@ -60,7 +60,7 @@ The following are the **parameters** to be passed while deploying the template.
   9.  **signUpSignInPolicyId** : Provide SignUpSignInPolicyId of AzureAD B2CWeb.
   10.	**sessionId** : Generate an online Guid id (for each deployment it should be unique)
       to generate GUID follow the below url
-      https://www.guidgenerator.com/online-guid-generator.aspx
+ https://www.guidgenerator.com/online-guid-generator.aspx
 
 
  7.  Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
