@@ -49,19 +49,19 @@ The following are the **parameters** to be passed while deploying the template.
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd13.PNG)
 
 **Note:** 
-1.	**tenantId**: Provide your Azure tenantId
-2.  **servicePrincipalClientId** : Provide Service principal Client ID
-3.  **servicePrincipalClientSecret**: Provide Service principal Client Secret
-4.	**ClientID**: Provide the AD Client ID
-5.	**Domain**: Provide AD Domain name
-6.  **AD tenantID**: Provide AD tenantID
-7.  **Azure AD B2C ClientID**: Provide AzureAD B2C client ID
-8.  **AzureAD B2C domain**: Provide AzureAD B2C domain
-9.  **signUpSignInPolicyId** : Provide SignUpSignInPolicyId of AzureAD B2CWeb.
-10.	**sessionId**: Generate an online Guid id (for each deployment it should be unique)
-to generate GUID follow the below url
+  1.	 **tenantId**: Provide your Azure tenantId
+  2.  **servicePrincipalClientId** : Provide Service principal Client ID
+  3.  **servicePrincipalClientSecret**: Provide Service principal Client Secret
+  4.	 **ClientID**: Provide the AD Client ID
+  5.	 **Domain**: Provide AD Domain name
+  6.  **AD tenantID**: Provide AD tenantID
+  7.  **Azure AD B2C ClientID**: Provide AzureAD B2C client ID
+  8.  **AzureAD B2C domain**: Provide AzureAD B2C domain
+  9.  **signUpSignInPolicyId** : Provide SignUpSignInPolicyId of AzureAD B2CWeb.
+  10.	**sessionId**: Generate an online Guid id (for each deployment it should be unique)
+      to generate GUID follow the below url
 
-https://www.guidgenerator.com/online-guid-generator.aspx
+      https://www.guidgenerator.com/online-guid-generator.aspx
 
 7.	Once all the parameters are entered, check in the **terms and conditions** check box and click **Purchase**.
 
@@ -73,14 +73,14 @@ https://www.guidgenerator.com/online-guid-generator.aspx
 
 The following are the list of resources were deployed after successful deployment of the ARM template.
 
-1.	IoT hub
-2.	Web API & Web Admin 
-3.	Storage Account blob
-4.	Cosmos DB
-5.	Notification hub
-6.	Account Automation
-7.	Kubernetes cluster
-8.	Omsworkspace
+  1.	IoT hub
+  2.	Web API & Web Admin 
+  3.	Storage Account blob
+  4.	Cosmos DB
+  5.	Notification hub
+  6.	Account Automation
+  7.	Kubernetes cluster
+  8.	Omsworkspace
 
 
 ![alt text](https://github.com/ChaitanyaGeddam/edison/raw/master/images/EdisonRmd16.PNG)
