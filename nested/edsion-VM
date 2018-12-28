@@ -6,7 +6,9 @@
           "type": "object"
       }
   },
-  "variables": {},
+  "variables": {
+    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vmSettings').virtualNetworkName, parameters('vmSettings').subnetName)]"
+  },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -71,7 +73,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('vmSettings').publicIPAddressName)]"
               },
               "subnet": {
-                "id": "[parameters('vmSettings').subnetRefId]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
