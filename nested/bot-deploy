@@ -1,0 +1,81 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "botSettings":{
+            "type": "object"
+        }
+    },
+    "variables": {
+               "config": {
+            "scratch": {
+                "stateEndpoint": "https://intercom-api-scratch.azurewebsites.net",
+                "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.scratch.botframework.com/",
+                "openIdMetadata": "https://api.scratch.botframework.com/v1/.well-known/openidconfiguration",
+                "channelService": ""
+            },
+            "ppe": {
+                "stateEndpoint": "https://intercom-api-ppe.azurewebsites.net",
+                "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.ppe.botframework.com/",
+                "openIdMetadata": "https://api.ppe.botframework.com/v1/.well-known/openidconfiguration",
+                "channelService": ""
+            },
+            "prod": {
+                "stateEndpoint": "",
+                "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.botframework.com/",
+                "openIdMetadata": "",
+                "channelService": ""
+            },
+            "usgovppe": {
+                "stateEndpoint": "",
+                "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.ppe.botframework.azure.us/",
+                "openIdMetadata": "https://api.ppe.botframework.azure.us/v1/.well-known/openidconfiguration",
+                "channelService": "https://botframework.azure.us"
+            },
+            "usgovprd": {
+                "stateEndpoint": "",
+                "azureWebJobsBotFrameworkDirectLineEndpoint": "https://directline.botframework.azure.us/",
+                "openIdMetadata": "",
+                "channelService": "https://botframework.azure.us"
+            }
+        },
+        "currentConfig": "[variables('config')[toLower(parameters('botSettings').botEnv)]]"   
+    },
+    "resources": [
+        {
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[parameters('botSettings').insightsName]",
+            "apiVersion": "2014-04-01",
+            "location": "[parameters('botSettings').appInsightsLocation]",
+            "tags": {
+                "[concat('hidden-link:', resourceId('Microsoft.BotService/botServices/', parameters('botSettings').botId))]": "Resource"
+            },
+            "properties": {
+                "ApplicationId": "[parameters('botSettings').botId]"
+            },
+            "condition": "[parameters('botSettings').useAppInsights]"
+        },
+        {
+            "type": "Microsoft.BotService/botServices",
+            "sku": {
+                "name": "[parameters('botSettings').sku]"
+            },
+            "kind": "[parameters('botSettings').kind]",
+            "name": "[parameters('botSettings').botId]",
+            "apiVersion": "2017-12-01",
+            "location": "global",
+            "properties": {
+                "name": "[parameters('botSettings').botId]",
+                "displayName": "[parameters('botSettings').botId]",
+                "endpoint": "[parameters('botSettings').botEndpoint]",
+                "msaAppId": "[parameters('botSettings').appId]",
+                "developerAppInsightsApplicationId": "[parameters('botSettings').insightsName]",
+                "developerAppInsightKey": "[reference(resourceId('microsoft.insights/components/', parameters('botSettings').insightsName), '2015-05-01').InstrumentationKey]"
+            },
+            "dependsOn": [
+                "[resourceId('microsoft.insights/components/', parameters('botSettings').insightsName)]"
+            ]
+        }
+    ]
+}
