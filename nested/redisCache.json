@@ -15,7 +15,7 @@
       "properties": {
         "enableNonSslPort": "[parameters('redisSettings').enableNonSslPort]",
         "sku": {
-          "capacity": "[parameters('redisSettings').redisCacheFamily]",
+          "capacity": "[parameters('redisSettings').redisCacheCapacity]",
           "family": "[parameters('redisSettings').redisCacheFamily]",
           "name": "[parameters('redisSettings').redisCacheSKU]"
         }
