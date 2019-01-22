@@ -4,6 +4,21 @@
     "parameters": {
         "vm": {
             "type": "object"
+        },
+        "acrSettings": {
+            "type": "object"
+        },
+        "acrLoginPassword":{
+            "type": "string"
+        },
+        "serviceBusProperties":{
+            "type": "object"
+        },
+        "cosmosDBPrimaryKey":{
+            "type": "string"
+        },
+        "sbPrimaryKey":{
+            "type": "string"
         }
     },
     "variables": {},
@@ -131,6 +146,27 @@
                             "id": "[resourceId('Microsoft.Network/networkInterfaces',parameters('vm').nicName)]"
                         }
                     ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('vm').vmName,'/Extensions')]",
+            "location": "[parameters('vm').location]",
+            "apiVersion": "2017-03-30",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',parameters('vm').vmName)]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "CustomScript",
+                "typeHandlerVersion": "2.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "[parameters('vm').fileUri]"
+                    ],
+                    "commandToExecute": "sh downloads.sh"
                 }
             }
         }
