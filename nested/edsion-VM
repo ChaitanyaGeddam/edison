@@ -4,21 +4,6 @@
     "parameters": {
         "vm": {
             "type": "object"
-        },
-        "acrSettings": {
-            "type": "object"
-        },
-        "acrLoginPassword":{
-            "type": "string"
-        },
-        "serviceBusProperties":{
-            "type": "object"
-        },
-        "cosmosDBPrimaryKey":{
-            "type": "string"
-        },
-        "sbPrimaryKey":{
-            "type": "string"
         }
     },
     "variables": {},
